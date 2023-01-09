@@ -56,7 +56,7 @@ CREATE TABLE employee (
 
 CREATE TABLE reviews (
     reviews_id SERIAL PRIMARY KEY,
-    employee_id INT,
+    employee_id INT UNIQUE,
     total_jobs INT,
     rating FLOAT,
     CONSTRAINT fk_reviews_employee
@@ -89,8 +89,12 @@ CREATE TABLE pay (
     employee_pay INT NOT NULL,
     profit_mande INT NOT NULL,
     total_payment INT NOT NULL,
+    service_id INT,
     pay_date DATE DEFAULT CURRENT_DATE,
-    status VARCHAR(2)
+    status VARCHAR(2),
+    CONSTRAINT fk_pay_service
+    FOREIGN KEY (service_id)
+    REFERENCES service(service_id)
 );
 
 CREATE TABLE service (
@@ -99,18 +103,15 @@ CREATE TABLE service (
     status_rating VARCHAR(2),
     user_id INT,
     employee_id INT,
-    pay_id INT,
     status VARCHAR(2),
     CONSTRAINT fk_service_employee
     FOREIGN KEY (employee_id) 
     REFERENCES employee(employee_id),
     CONSTRAINT fk_service_users
     FOREIGN KEY (user_id) 
-    REFERENCES users(user_id),
-    CONSTRAINT fk_service_pay
-    FOREIGN KEY (pay_id) 
-    REFERENCES pay(pay_id)
+    REFERENCES users(user_id)
 );
+
 
 INSERT INTO public.works (names,status) VALUES
 	 ('Plomero','Y'),
@@ -118,6 +119,4 @@ INSERT INTO public.works (names,status) VALUES
 	 ('Electricista','Y'),
 	 ('Programador','Y'),
 	 ('Piloto','Y');
-
-
-ALTER TABLE reviews ADD CONSTRAINT employee_unique UNIQUE (employee_id);
+     
