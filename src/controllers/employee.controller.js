@@ -25,10 +25,10 @@ const getemployee = async (req, res, next) => {
 }
 
 const createemployee = async (req, res, next) => {
-    const { photo_id, profile_picture, available, cash } = req.body;
+    const { employee_id, photo_id, profile_picture, cash } = req.body;
 
     try {
-        const result = await pool.query("INSERT INTO employee (photo_id, profile_picture, available, cash, status) VALUES ($1, $2, $3, $4, 'Y') RETURNING *", [photo_id, profile_picture, available, cash]);
+        const result = await pool.query("INSERT INTO employee (employee_id, photo_id, profile_picture, available, cash, status) VALUES ($1, $2, $3, 'Y', $4, 'Y') RETURNING *", [employee_id, photo_id, profile_picture, cash]);
         res.json(result.rows[0]);
     }
     catch (error) {
@@ -55,7 +55,7 @@ const updateemployee = async (req, res, next) => {
     const { id } = req.params;
     const { photo_id, profile_picture, available, cash } = req.body;
     try{
-        const result = await pool.query("UPDATE employee SET photo_id = $1, profile_picture = $2, available = $3, cash, = $4 WHERE employee_id = $5 RETURNING *", [photo_id, profile_picture, available, cash, id]);
+        const result = await pool.query("UPDATE employee SET photo_id = $1, profile_picture = $2, available = $3, cash = $4 WHERE employee_id = $5 RETURNING *", [photo_id, profile_picture, available, cash, id]);
         if (result.rows.length === 0) {
             return res.status(404).json({ message: 'No existe el empleado' })
         }

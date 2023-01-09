@@ -119,3 +119,5 @@ INSERT INTO public.works (names,status) VALUES
 	 ('Programador','Y'),
 	 ('Piloto','Y');
 
+
+ALTER TABLE reviews ADD CONSTRAINT employee_unique UNIQUE (employee_id);

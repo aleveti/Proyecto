@@ -11,6 +11,7 @@ const usersRouter = require('./routers/user.routes');
 const payMRouter = require('./routers/payM.routes');
 const reviewsRouter = require('./routers/reviews.routes');
 const employeesWorkRouter = require('./routers/employeesWork.routes');
+const payRouter = require('./routers/pay.routes');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(usersRouter);
 app.use(payMRouter);
 app.use(reviewsRouter);
 app.use(employeesWorkRouter);
+app.use(payRouter);
 
 app.use((err, req, res, next) => {
   return res.json({

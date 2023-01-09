@@ -1,16 +1,16 @@
 const {Router} = require('express');
-const {getAllAddress, getAddress, createAddress, deleteAddress, updateAddress} = require('../controllers/address.controller.js');
+const {getAllPay, getPay, createPay, deletePay, updatePay} = require('../controllers/pay.controller.js');
 
 const router = Router();
 
-router.get('/address', getAllAddress);
+router.get('/pay', getAllPay);
 
-router.get('/address/:id', getAddress);
+router.get('/pay/:id', getPay);
 
-router.post('/address', createAddress);
+router.post('/pay', createPay);
 
-router.put('/address/delete/:id', deleteAddress);
+router.put('/pay/delete/:id', deletePay);
 
-router.put('/address/:id', updateAddress);
+router.put('/pay/:id', updatePay);
 
 module.exports = router;
