@@ -2,7 +2,6 @@ import 'date-fns';
 import React from 'react'
 import { useState } from 'react';
 import Stack from '@mui/material/Stack';
-import DateFnsUtils from '@date-io/date-fns';
 import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
@@ -13,7 +12,6 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import InputAdornment from '@mui/material/InputAdornment';
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { Grid, Card, Typography, CardContent, TextField, Button } from '@mui/material'
 
 
@@ -66,15 +64,6 @@ export default function ClientForm() {
   //handle mouse down password
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
-  };
-
-  //state for date
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2023-01-11T21:11:54'));
-
-  //handle change date
-  const handleDateChange = (date, newValue) => {
-    setSelectedDate(date);
-    setPayM({ ...payM, expiration_date: newValue })
   };
 
   return (
@@ -138,28 +127,28 @@ export default function ClientForm() {
                   onChange={handleChangePayM}
                   InputLabelProps={{ style: { color: 'black' } }}
                 />
-                <MuiPickersUtilsProvider
-                  utils={DateFnsUtils}
-                  name='expiration_date'
-                >
-                  <KeyboardDatePicker
-                    margin=".5 rem 0"
-                    display="block"
-                    style={{
-                      width: "14rem",
-                      display: "block",
-                      margin: "-0.7rem 0 1rem 0"
-                    }}
-                    id="date-picker-dialog"
-                    label="Fecha de expiracion"
-                    format="MM/dd/yyyy"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
+                <Stack>
+                  <label
+                    style={{ color: 'black', margin: " -.2rem 0" }}
+                  >
+                    Fecha de expiracion
+                    <input
+                      type="Date"
+                      name="Fecha de expiracion"
+                      style={{ 
+                        display: "block", 
+                        width: '14rem', 
+                        height: '3rem', 
+                        margin: "1rem 0",
+                        backgroundColor: "#f7f6f6",
+                        border: "1px solid #003748",
+                      }}
+                      onChange={handleChangePayM}
+                    />
+                  </label>
+
+                </Stack>
+
                 <FormControl
                   sx={{
                     display: "block",

@@ -1,4 +1,4 @@
-import { Card, Grid, Typography, CardContent, TextField } from '@mui/material'
+import { Card, Grid, Typography, CardContent, TextField, Button } from '@mui/material'
 import React from 'react'
 import { HelmetProvider, Helmet } from 'react-helmet-async'
 import { useEffect, useState } from 'react'
@@ -12,7 +12,8 @@ import { Autocomplete } from '@mui/material'
 // const employeeOptions = [fetch('http://localhost:4000/work')];
 
 export default function EmployeeForm() {
-
+  
+  //to fill combobox type of works with data from database
   const [work, setWork] = useState([]);
 
   const loadWork = async () => {
@@ -29,13 +30,6 @@ export default function EmployeeForm() {
   const [img, setImg] = useState(null);
   const [imgID, setImgID] = useState(null);
 
-  //handle change for imgID
-  const handleChangeImgID = (e) => {
-
-    setEmployee({ ...employee, [e.target.name]: e.target.value })
-    setImgID(e.target.files[0])
-  }
-
   //state for employee  
   const [employee, setEmployee] = useState({
     photo_id: '',
@@ -49,6 +43,35 @@ export default function EmployeeForm() {
     setImg(e.target.files[0])
   }
 
+  //handle change for imgID
+  const handleChangeImgID = (e) => {
+    setEmployee({ ...employee, [e.target.name]: e.target.value })
+    setImgID(e.target.files[0])
+  }
+
+  const [works, setWorks] = useState({
+    names: '',
+    description: ''
+  })
+
+  //handle change for works
+  const handleChangeWorks = (e) => {
+    setWorks({ ...works, [e.target.name]: e.target.value })
+  }
+
+  const [employeeWork, setEmployeeWork] = useState({
+    price_hour: '',
+  })
+
+  const handleChangeEmployeeWork = (e) => {
+    setEmployeeWork({ ...employeeWork, [e.target.name]: e.target.value })
+  }
+
+  //handle submit for employee
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(employee, works, employeeWork);
+  }
 
   return (
     <HelmetProvider>
@@ -75,14 +98,14 @@ export default function EmployeeForm() {
             >
               Registro empleado
             </Typography>
-            <form>
+            <form onSubmit={handleSubmit}>
               <CardContent
                 sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
               >
                 <Autocomplete
                   disablePortal
                   options={Object.values(work.map((work) => work.names))}
-                  //onChange={(event, newValue) => { setPayM({ ...payM, cardType: newValue }) }}
+                  onChange={(event, newValue) => { setWorks({ ...works, names: newValue }) }}
                   sx={{
                     display: "block",
                     margin: " 0rem 0",
@@ -102,10 +125,26 @@ export default function EmployeeForm() {
                     margin: "-.8rem 0",
                   }}
                   style={{ width: "80%" }}
+                  name="price_hour"
+                  onChange={handleChangeEmployeeWork}
                 />
                 <CardContent
                   sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
                 >
+                  <TextField
+                  variant="outlined"
+                  label="Descripcion trabajo"
+                  multiline
+                  rows={4}
+                  sx={{
+                    display: "block",
+                    margin: ".9rem 0",
+                  }}
+                  style={{ width: "93%" }}
+                  name="description"
+                  onChange={handleChangeWorks}
+
+                />
                   <Stack
                     direction="row"
                     alignItems="center"
@@ -163,7 +202,7 @@ export default function EmployeeForm() {
                       <input
                         hidden accept="image/*"
                         type="file"
-                        name='profile_picture'
+                        name='photo_id'
                         onChange={handleChangeImgID}
                       />
                       <PhotoCamera />
@@ -186,6 +225,24 @@ export default function EmployeeForm() {
                     }
                   </div>
                 </CardContent>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  type='submit'
+                  sx={{
+                    display: "block",
+                    margin: ".5rem 0"
+                  }}
+                  style={{
+                    backgroundColor: "#0a0a23",
+                    color: "white",
+                    width: "70%",
+                    margin: "0 auto",
+                    marginTop: "1rem"
+                  }}
+                >
+                  Crear cuenta
+                </Button>
               </CardContent>
             </form>
           </Card>

@@ -11,14 +11,17 @@ import { Card, CardContent, TextField, Typography, Button } from '@mui/material'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
+import {useNavigate} from 'react-router-dom';
 
 
-const kindPerson = [
+const kindUser = [
   { label: 'Cliente' },
   { label: 'Empleado' }
 ];
 
 export default function InputAdornments() {
+
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -28,8 +31,21 @@ export default function InputAdornments() {
     event.preventDefault();
   };
 
+  const [kindPerson, setKindPerson] = useState({
+    type_user: ''
+  })
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //console.log(person)
+
+    if(kindPerson.type_user.label === 'Cliente'){
+      navigate('/client/new')
+    }else if(kindPerson.type_user.label === 'Empleado'){
+      navigate('/employee/new')
+    }
+
+
     //Valida si el correo o el telefono ya existen donde en caso de que exista devuelve True y en caso de que no exista devuelve False
     const dataValidation = await fetch('http://localhost:4000/person/validation', {
       method: 'POST',
@@ -97,7 +113,7 @@ export default function InputAdornments() {
   return (
     <HelmetProvider>
       <Helmet>
-        <style>{'body { background-color: #0a0a23; }'}</style>
+        <style>{'body { background-color: #003748; }'}</style>
       </Helmet>
       <Grid
         container
@@ -192,7 +208,8 @@ export default function InputAdornments() {
                 <Autocomplete
                   disablePortal
                   id="combo-box-demo"
-                  options={kindPerson}
+                  options={kindUser}
+                  onChange={(event, newValue) => { setKindPerson({ ...kindPerson, type_user: newValue }) }}
                   sx={{
                     display: "block",
                     margin: ".5rem 0"

@@ -49,6 +49,21 @@ const getPayMethodPerson = async (req, res, next) => {
   }
 }
 
+//
+const getPayMethodValidation = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const result = await pool.query("SELECT * FROM payment_method WHERE card_number = $1 AND status = 'Y'", [id])
+    if (result.rows.length > 0) {
+      return res.json({ message: true });
+    }
+    return res.json({ message: false });
+  } catch (error) {
+    next(error);
+  }
+}
+
 const deletePayMethod = async (req, res, next) => {
 
   const { id } = req.params;
@@ -88,6 +103,7 @@ module.exports = {
   getAllPayMethod,
   getPayMethod,
   getPayMethodPerson,
+  getPayMethodValidation,
   createPayMethod,
   deletePayMethod,
   updatePayMethod
